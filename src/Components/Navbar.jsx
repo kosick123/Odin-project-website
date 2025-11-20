@@ -1,68 +1,58 @@
-import React from "react";
-import {useState} from 'react';
-import {evaluate} from 'mathjs';
+import React, { useState } from "react";
+import logo from "../assets/logo.png";
+import logo2 from "../assets/logo2.png";
+import { Link } from "react-router-dom";
 
-function Navbar(){
-  const[result,setResult]=useState("");
+function Navbar() {
+  const [open, setOpen] = useState(false);
 
-  const handleClick = (value) => {
-    setResult(result + value);
-  };
+  return (
+    <nav className="sticky top-0 z-50 bg-white ">
+      <div className="flex justify-between items-center p-4">
 
-  const clearInput = () => {
-    setResult("");
-  }
+        {/* Left Logo */}
+        <div className="flex items-center gap-3">
+          <img src={logo} alt="logo" className="w-10 h-10" />
+          <h2 className="text-black font-semibold">THE ODIN PROJECT</h2>
+        </div>
 
-  const calculator = () => {
-    try {
-       const output = evaluate(result);
-      setResult(output.toString());
-    } catch (error) {
-      setResult("Error");
-    }
-  };
+        {/* Desktop Menu */}
+        <ul className="hidden md:flex gap-10 items-center text-green-600">
+          <li><Link to="/" className="hover:text-black ">All Paths</Link></li>
+          <li><Link to="/about" className="hover:text-black">About</Link></li>
+          <li><Link to="/community" className="hover:text-black">Community</Link></li>
+          <li><Link to="/supportus" className="hover:text-black">Support Us</Link></li>
+          <li><Link to="/signin" className="hover:text-black">Sign In</Link></li>
 
+          <img src={logo2} alt="logo2" className="w-8 h-8 transition-transform duration-300 hover:scale-110 cursor-pointer" />
 
-  return(
-    <div className="w-72 mx-auto mt-10 bg-gray-800 p-5 rounded-xl text-white shadow-xl">
-       <h2 className="text-center text-xl font-bold mb-3">React Calculator</h2>
-       <input 
-       type="text"
-       value={result}
-       readOnly
-       className="w-full h-12 text-right px-2 text-xl rounded bg-gray-900 mb-4"
-       />
+          <button className="bg-green-800 text-white rounded-md h-10 w-28 transition-transform duration-300 hover:scale-110">
+            Get Started
+          </button>
+        </ul>
 
-       <div className="grid grid-cols-4 gap-4">
-        <button onClick={() => handleClick("7")} className="btn">7</button>
-        <button onClick={() => handleClick("8")} className="btn">8</button>
-        <button onClick={() => handleClick("9")} className="btn">9</button>
-        <button onClick={() => handleClick("/")} className="btn bg-orange-500">/</button>
+        {/* Mobile Menu Button */}
+        <button className="md:hidden text-3xl" onClick={() => setOpen(!open)}>
+          ☰
+        </button>
+      </div>
 
+      {/* Mobile Dropdown */}
+      {open && (
+        <ul className="md:hidden flex flex-col gap-4 p-4 bg-green-100">
+          <li><Link to="/" onClick={() => setOpen(false)}>All Paths</Link></li>
+          <li><Link to="/about" onClick={() => setOpen(false)}>About</Link></li>
+          <li><Link to="/community" onClick={() => setOpen(false)}>Community</Link></li>
+          <li><Link to="/supportus" onClick={() => setOpen(false)}>Support Us</Link></li>
+          <li><Link to="/signin" onClick={() => setOpen(false)}>Sign In</Link></li>
 
-         <button onClick={() => handleClick("4")} className="btn">4</button>
-        <button onClick={() => handleClick("5")} className="btn">5</button>
-        <button onClick={() => handleClick("6")} className="btn">6</button>
-        <button onClick={() => handleClick("*")} className="btn bg-orange-500">*</button>
-
-        <button onClick={() => handleClick("1")} className="btn">1</button>
-        <button onClick={() => handleClick("2")} className="btn">2</button>
-        <button onClick={() => handleClick("3")} className="btn">3</button>
-        <button onClick={() => handleClick("-")} className="btn bg-orange-500">-</button>
-
-        <button onClick={() => handleClick("0")} className="btn col-span-2">0</button>
-        <button onClick={() => handleClick(".")} className="btn">.</button>
-        <button onClick={() => handleClick("+")} className="btn bg-orange-500">+</button>
-
-        <button onClick={clearInput} className="btn col-span-2 bg-red-500">CLEAR</button>
-        <button onClick={calculator} className="btn col-span-2 bg-green-500"> =</button>
-
-       </div>
-
-
-
-    </div>
-
-  )
+          <button className="bg-green-800 text-white rounded-md h-10 w-full">
+            Get Started
+          </button>
+        </ul>
+      )}
+    </nav>
+  );
 }
-export default Navbar
+
+export default Navbar;
